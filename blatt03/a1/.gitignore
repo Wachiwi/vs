@@ -1,0 +1,3 @@
+*.o
+vs_client
+vs_server
