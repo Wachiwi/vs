@@ -31,16 +31,15 @@ public class Client {
         return String.copyValueOf(s);
     }
 
-    public static void main(String[] args) {
+    private static void callable(int c) {
         Registry registry = null;
         RMIMethods vs_rmi = null;
+
         try {
             registry = LocateRegistry.getRegistry();
             vs_rmi = (RMIMethods) registry.lookup( "RMIMethods" );
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
+        } catch (RemoteException | NotBoundException e) {
+            System.err.println("[ERROR] " + e.getMessage());
         }
 
         int a = new Random().nextInt(10),
@@ -57,12 +56,21 @@ public class Client {
             System.out.println("rmiIncrement()");
             vs_rmi.rmiIncrement();
 
-            System.out.println("rmiShutdown()");
-            vs_rmi.rmiShutdown();
+            if (c == 2) {
+                System.out.println("rmiShutdown()");
+                vs_rmi.rmiShutdown();
+            }
 
             System.out.println("rmiServernameAtWithException(" + a + ") = " + vs_rmi.rmiServernameAtWithException(a));
         } catch (RemoteException e) {
-            e.printStackTrace();
+            System.err.println("[ERROR] " + e.getMessage());
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Run 1:\n=================");
+        Client.callable(1);
+        System.out.println("Run 2:\n=================");
+        Client.callable(2);
     }
 }
