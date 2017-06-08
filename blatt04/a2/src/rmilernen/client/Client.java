@@ -1,11 +1,13 @@
 package rmilernen.client;
 
-import rmilernen.server.RMIMethods;
+import rmilernen.server.VSMethodsIf;
 
+import java.io.EOFException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Client {
@@ -33,11 +35,11 @@ public class Client {
 
     private static void callable(int c) {
         Registry registry = null;
-        RMIMethods vs_rmi = null;
+        VSMethodsIf vs_rmi = null;
 
         try {
             registry = LocateRegistry.getRegistry();
-            vs_rmi = (RMIMethods) registry.lookup( "RMIMethods" );
+            vs_rmi = (VSMethodsIf) registry.lookup( "VSMethods" );
         } catch (RemoteException | NotBoundException e) {
             System.err.println("[ERROR] " + e.getMessage());
         }
@@ -46,26 +48,19 @@ public class Client {
             System.err.println("Could not connect to registry or could not get lookup results!");
         }
 
-        int a = new Random().nextInt(10),
-            b = new Random().nextInt(10);
-        String  s1 = Client.gstr(3, false),
-                s2 = Client.gstr(3, false),
-                s3 = Client.gstr(7, true);
-        try {
-            System.out.println("rmiSquare(" + a + ") = " + vs_rmi.rmiSquare(a));
-            System.out.println("rmiAdd(" + a + ", " + b + ") = " + vs_rmi.rmiAdd(a, b));
-            System.out.println("rmiConcat(\"" + s1 + "\", \"" + s2 + "\") = " + vs_rmi.rmiConcat(s1, s2));
-            System.out.println("rmiSplit(\"" + s3 + "\") = " + vs_rmi.rmiSplit(s3));
+        int a = new Random().nextInt(10);
+        String  s1 = Client.gstr(3, false);
 
-            System.out.println("rmiIncrement()");
-            vs_rmi.rmiIncrement();
+        try {
+            System.out.println("rmiQuad(" + a + ") = " + vs_rmi.rmiQuad(a));
+            System.out.println("rmiTwice(\"" + s1 + "\") = " + Arrays.toString(vs_rmi.rmiTwice(s1)));
+            System.out.println("rmiReaddir() = " + vs_rmi.rmiReaddir());
 
             if (c == 2) {
                 System.out.println("rmiShutdown()");
                 vs_rmi.rmiShutdown();
             }
 
-            System.out.println("rmiServernameAtWithException(" + a + ") = " + vs_rmi.rmiServernameAtWithException(a));
         } catch (RemoteException e) {
             System.err.println("[ERROR] " + e.getMessage());
         }
