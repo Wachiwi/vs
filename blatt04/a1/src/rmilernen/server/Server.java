@@ -1,12 +1,9 @@
 package rmilernen.server;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.RemoteServer;
-import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class Server {
@@ -22,7 +19,7 @@ public class Server {
             registry.rebind( "RMIMethods", stub );
             System.out.println( "RMIMethods angemeldet!" );
         }
-        catch ( RemoteException e )  {g
+        catch ( RemoteException e )  {
             System.out.println("ERROR: " + e.getMessage());
         }
     }

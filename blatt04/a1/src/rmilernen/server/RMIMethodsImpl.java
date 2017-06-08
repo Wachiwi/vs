@@ -19,34 +19,41 @@ public class RMIMethodsImpl implements RMIMethods {
 
     @Override
     public long rmiSquare(long l) throws RemoteException {
+        System.out.println("rmiSquare(" + l + ") called!");
         return l * l;
     }
 
     @Override
     public long rmiAdd(long a, long b) throws RemoteException {
+        System.out.println("rmiAdd(" + a + ", " + b + ") called!");
         return a +b;
     }
 
     @Override
     public String rmiConcat(String a, String b) throws RemoteException {
+        System.out.println("rmiConcat(\"" + a + "\", \"" + b + "\") called!");
         return a.concat(b);
     }
 
     @Override
     public List<String> rmiSplit(String a) throws RemoteException {
+        System.out.println("rmiSplit(\"" + a + "\") called!");
         return Arrays.asList(a.split("\\s", 2));
     }
 
     @Override
     public void rmiIncrement() throws RemoteException {
-     RMIMethodsImpl.var++;
+        System.out.println("rmiIncrement() called!");
+        RMIMethodsImpl.var++;
     }
 
     @Override
     public void rmiShutdown() throws RemoteException {
+        System.out.println("rmiShutdown() called!");
         try {
             Registry r = LocateRegistry.getRegistry();
             r.unbind("RMIMethods");
+            System.exit(0);
         } catch (NotBoundException e) {
             throw new RemoteException(e.getMessage());
         }
@@ -54,6 +61,7 @@ public class RMIMethodsImpl implements RMIMethods {
 
     @Override
     public char rmiServernameAtWithException(int i) throws RemoteException {
+        System.out.println("rmiServernameAtWithException() called!");
         try {
             return InetAddress.getLocalHost().getHostName().charAt(i);
         } catch (UnknownHostException e) {
