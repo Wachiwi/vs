@@ -4,22 +4,46 @@
 
 #include "vs.h"
 
-int nrnd() {
-	return rand() % 10 + 1;
+typedef enum { false, true } bool;
+
+int call = 0;
+
+int vrnd(int max, int min) {
+	return (int) (rand() % max + min);
+}
+
+char* gstr(int l, bool s) {
+	int i;
+	char* str;
+	if (s) {
+		str = calloc(l + 1, sizeof(char));
+		int m = vrnd(l, 0);
+		for(i = 0; i < l; i++) {
+			if(i == m) {
+				str[i] = ' ';
+			} else {
+				str[i] = (char) 'a' + vrnd(26, 0);
+			}
+		}
+	} else {
+		str = calloc(l, sizeof(char));
+		for(i = 0; i < l; i++) str[i] = (char) 'a' + vrnd(26, 0);
+	}
+	return str;
 }
 
 void vs11server_1(char *host) {
 	CLIENT *clnt;
 	long  *result_1;
-	long vs_square_1_arg = nrnd();
+	long vs_square_1_arg = vrnd(10, 1);
 	long  *result_2;
-	add_params vs_add_1_arg = {nrnd(), nrnd()};
+	add_params vs_add_1_arg = {vrnd(10, 1), vrnd(10, 1)};
 	char * *result_3;
-	concat_params vs_concat_1_arg = {"abc", "def"};
+	concat_params vs_concat_1_arg = {gstr(3, false), gstr(3, false)};
 	split_return  *result_4;
-	char * vs_split_1_arg = "abc def";
+	char * vs_split_1_arg = gstr(7, true);
 	void  *result_5;
-	long vs_increment_1_arg = nrnd();
+	long vs_increment_1_arg = vrnd(10, 1);
 	void  *result_6;
 	char *vs_shutdown_1_arg = NULL;
 
@@ -61,9 +85,11 @@ void vs11server_1(char *host) {
 	}
 	printf("vs_increment(%li)\n", vs_increment_1_arg);
 
-	result_6 = vs_shutdown_1((void*)&vs_shutdown_1_arg, clnt);
-	if (result_6 == (void *) NULL) {
-		printf("vs_shutdown seemed to work\n");
+	if (call == 2) {
+		result_6 = vs_shutdown_1((void*)&vs_shutdown_1_arg, clnt);
+		if (result_6 == (void *) NULL) {
+			printf("vs_shutdown seemed to work\n");
+		}
 	}
 
 	#ifndef DEBUG
@@ -80,7 +106,12 @@ int main (int argc, char *argv[]) {
 		printf ("usage: %s server_host\n", argv[0]);
 		exit (1);
 	}
+
 	host = argv[1];
+	printf("RUN 1:\n==========================\n");
+	vs11server_1 (host);
+	call = 2;
+	printf("RUN 2:\n==========================\n");
 	vs11server_1 (host);
 	exit (0);
 }

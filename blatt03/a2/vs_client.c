@@ -7,9 +7,7 @@
 #include "vs.h"
 
 
-void
-vs11server_1(char *host)
-{
+void vs11server_1(char *host) {
 	CLIENT *clnt;
 	quad_array  *result_1;
 	int  vs_quad_1_arg;
@@ -20,13 +18,13 @@ vs11server_1(char *host)
 	void  *result_4;
 	char *vs_shutdown_1_arg;
 
-#ifndef	DEBUG
-	clnt = clnt_create (host, VS11SERVER, VS11SERVER, "udp");
-	if (clnt == NULL) {
-		clnt_pcreateerror (host);
-		exit (1);
-	}
-#endif	/* DEBUG */
+	#ifndef	DEBUG
+		clnt = clnt_create (host, VS11SERVER, VS11SERVER, "udp");
+		if (clnt == NULL) {
+			clnt_pcreateerror (host);
+			exit (1);
+		}
+	#endif	/* DEBUG */
 
 	result_1 = vs_quad_1(&vs_quad_1_arg, clnt);
 	if (result_1 == (quad_array *) NULL) {
@@ -44,15 +42,13 @@ vs11server_1(char *host)
 	if (result_4 == (void *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
-#ifndef	DEBUG
-	clnt_destroy (clnt);
-#endif	 /* DEBUG */
+	#ifndef	DEBUG
+		clnt_destroy (clnt);
+	#endif	 /* DEBUG */
 }
 
 
-int
-main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]) {
 	char *host;
 
 	if (argc < 2) {
@@ -61,5 +57,5 @@ main (int argc, char *argv[])
 	}
 	host = argv[1];
 	vs11server_1 (host);
-exit (0);
+	exit (0);
 }

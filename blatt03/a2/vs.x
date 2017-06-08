@@ -15,10 +15,10 @@ struct quad_array {
 };
 
 program VS11SERVER {
-  version VS11SERVER {
+  version VS11SERVERVERS {
     quad_array vs_quad(int)=1;
     return_twice vs_twice(string name)=2;
-    string vs_readdir(string dirname)=3;
+    dir_node vs_readdir(string dirname)=3;
     void vs_shutdown(void)=6;
   }=1;
 }= 0x20005123;
