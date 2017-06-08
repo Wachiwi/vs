@@ -1,6 +1,11 @@
 package rmilernen.server;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,11 +44,21 @@ public class RMIMethodsImpl implements RMIMethods {
 
     @Override
     public void rmiShutdown() throws RemoteException {
-
+        try {
+            Registry r = LocateRegistry.getRegistry();
+            r.unbind("RMIMethods");
+        } catch (NotBoundException e) {
+            throw new RemoteException(e.getMessage());
+        }
     }
 
     @Override
     public char rmiServernameAtWithException(int i) throws RemoteException {
-        return 0;
+        try {
+            return InetAddress.getLocalHost().getHostName().charAt(i);
+        } catch (UnknownHostException e) {
+            throw new RemoteException(e.getMessage());
+        }
+
     }
 }
