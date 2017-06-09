@@ -95,7 +95,7 @@ public class Client {
         try {
             System.out.println("BasicPlus:rmiQuad(" + a + ") = " + basicplus.rmiQuad(a));
             System.out.println("BasicPlus:rmiTwice(\"" + s1 + "\") = " + Arrays.toString(basicplus.rmiTwice(s1)));
-            System.out.println("BasicPlus:rmiReaddir() = " + basicplus.rmiReaddir());
+            System.out.println("BasicPlus:rmiReaddir(\".\") = " + basicplus.rmiReaddir("."));
 
             if (c == 2) {
                 System.out.println("BasicPlus:rmiShutdown()");
@@ -140,7 +140,7 @@ public class Client {
 
             System.out.println("Extended:rmiQuad(" + a + ") = " + extended.rmiQuad(a));
             System.out.println("Extended:rmiTwice(\"" + s1 + "\") = " + Arrays.toString(extended.rmiTwice(s1)));
-            System.out.println("Extended:rmiReaddir() = " + extended.rmiReaddir());
+            System.out.println("Extended:rmiReaddir(\".\") = " + extended.rmiReaddir("."));
 
             if (c == 2) {
                 System.out.println("Extended:rmiShutdown()");

@@ -16,7 +16,7 @@ public interface ExtendedIf extends Remote {
     // Basic Plus
     List<Long> rmiQuad(long l) throws RemoteException;
     String[] rmiTwice(String a) throws RemoteException;
-    List<String> rmiReaddir() throws RemoteException;
+    List<String> rmiReaddir(String p) throws RemoteException;
 
     // Duplicate
     void rmiShutdown() throws RemoteException;

@@ -86,9 +86,9 @@ public class ExtendedImpl implements ExtendedIf {
     }
 
     @Override
-    public List<String> rmiReaddir() throws RemoteException {
+    public List<String> rmiReaddir(String p) throws RemoteException {
         System.out.println("Extended:rmiReaddir() called!");
-        File f = new File(".");
+        File f = new File(p);
         return Arrays.asList(f.list());
     }
 }

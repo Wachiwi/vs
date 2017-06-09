@@ -54,7 +54,7 @@ public class Client {
         try {
             System.out.println("rmiQuad(" + a + ") = " + vs_rmi.rmiQuad(a));
             System.out.println("rmiTwice(\"" + s1 + "\") = " + Arrays.toString(vs_rmi.rmiTwice(s1)));
-            System.out.println("rmiReaddir() = " + vs_rmi.rmiReaddir());
+            System.out.println("rmiReaddir(\".\") = " + vs_rmi.rmiReaddir("."));
 
             if (c == 2) {
                 System.out.println("rmiShutdown()");
