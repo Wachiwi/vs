@@ -1,0 +1,19 @@
+Autor: David Schwarzmann
+Verteilte Systeme SS 2017
+Blatt 04: Java-RMI-Programmierung
+Aufgabe 03
+
+Vorbedingung:
+Das aktuelle Arbeitsverzeichnis ist
+blatt04/a3
+
+Generieranleitung:
+1. Generieren des ausführbaren Programms mit
+make build
+
+Installationsanleitung:
+Entfällt. Die Dateien sind direkt nach Generierung ausführbar.
+
+Bedienungsanleitung:
+1. Starten mit
+make run
