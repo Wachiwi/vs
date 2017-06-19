@@ -1,2 +1,2 @@
 build:
-	gcc -lpthread *.c -o add-threads
+	gcc -pthread *.c -o add-threads

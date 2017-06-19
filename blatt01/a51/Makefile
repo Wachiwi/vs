@@ -1,2 +1,2 @@
 build:
-	gcc -lpthread *.c -o shared-res
+	gcc -pthread *.c -o shared-res

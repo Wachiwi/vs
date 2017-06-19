@@ -1,2 +1,2 @@
 build:
-	gcc -lpthread *.c -o iteration-threads
+	gcc -pthread *.c -o iteration-threads
