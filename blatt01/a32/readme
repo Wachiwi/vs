@@ -1,0 +1,19 @@
+Autor: David Schwarzmann
+Verteilte Systeme SS 2017
+Blatt 01: Arbeitsumgebung Linux, Threads, Synchronisation
+Aufgabe 03.2
+
+Vorbedingung:
+Das aktuelle Arbeitsverzeichnis ist
+blatt01/a32
+
+Generieranleitung:
+1. Generieren des ausführbaren Programms mit
+make build
+
+Installationsanleitung:
+Entfällt. Die Dateien sind direkt nach Generierung ausführbar.
+
+Bedienungsanleitung:
+1. Start des ausführbaren Programms mit
+./iteration-threads
