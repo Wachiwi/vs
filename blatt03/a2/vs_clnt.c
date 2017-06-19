@@ -39,15 +39,15 @@ vs_twice_1(char **argp, CLIENT *clnt)
 	return (&clnt_res);
 }
 
-char **
+dir_node *
 vs_readdir_1(char **argp, CLIENT *clnt)
 {
-	static char *clnt_res;
+	static dir_node clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	if (clnt_call (clnt, vs_readdir,
 		(xdrproc_t) xdr_wrapstring, (caddr_t) argp,
-		(xdrproc_t) xdr_wrapstring, (caddr_t) &clnt_res,
+		(xdrproc_t) xdr_dir_node, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
 	}

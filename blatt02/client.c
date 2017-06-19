@@ -55,7 +55,7 @@ int main(int argc, char *argv[]){
 	printf("Gefundener Kommandozeilenparameter Port:    %s\n",portno);
 	
 	// IPv4 Protokollfamilie, Datagram-Socket, automatische Protokollwahl (Bei Datagram-Socket: UDP)
-    if((sd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+    if((sd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
         handleErrorAndExit("Erstellen des Sockets fehlgeschlagen.");
     }
@@ -72,8 +72,10 @@ int main(int argc, char *argv[]){
     serveraddr.sin_port = htons(atoi(portno));
     bcopy((char *)hp->h_addr, (char *)&serveraddr.sin_addr.s_addr, hp->h_length);
 
-
-	
+	// Verbinden
+	if (connect(sd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0){
+		handleErrorAndExit("Connect failed");
+	}
 	
 	
 	// Format der API
@@ -126,9 +128,17 @@ int main(int argc, char *argv[]){
 		printf("\nGesendete Nachricht: %s\n", buffer);
 		
 		// Antwort empfangen
-		if(recvfrom(sd, buffer, sizeof(buffer), 0, (struct sockaddr *)&serveraddr, &addrlen_server) < 0){
-			handleErrorAndExit("Fehler beimEmpfangen.");
+		/*if(recvfrom(sd, buffer, sizeof(buffer), 0, (struct sockaddr *)&serveraddr, &addrlen_server) < 0){
+			handleErrorAndExit("Fehler beim Empfangen.");
+		}*/
+		
+		// Versuch mit read()
+		int res = read(sd, buffer, sizeof(buffer));
+		if(res < 0) {
+			handleErrorAndExit("Fehler beim Empfangen.");
 		}
+		
+		
 		printf("\nEmpfangene Nachricht: %s\n", buffer);		
 		
 	}	while(input_mode != VS_EXIT_COMMAND && input_mode != VS_SHUTDOWN_COMMAND);
@@ -137,4 +147,4 @@ int main(int argc, char *argv[]){
 	close(sd);
 	printf("\nVerbindung getrennt\n");
 	return 0;
-}
+}  

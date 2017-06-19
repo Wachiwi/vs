@@ -16,7 +16,7 @@ Entfällt. Die Dateien sind direkt nach Generierung ausführbar.
 
 Bedienungsanleitung:
 1. Start des Servers mit
-./server
+./server 8080 &
 
 2. Start des Clients mit
-./client
+./client localhost 8080

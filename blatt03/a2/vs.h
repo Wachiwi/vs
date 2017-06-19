@@ -37,7 +37,7 @@ struct quad_array {
 typedef struct quad_array quad_array;
 
 #define VS11SERVER 0x20005123
-#define VS11SERVER 1
+#define VS11SERVERVERS 1
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define vs_quad 1
@@ -47,8 +47,8 @@ extern  quad_array * vs_quad_1_svc(int *, struct svc_req *);
 extern  return_twice * vs_twice_1(char **, CLIENT *);
 extern  return_twice * vs_twice_1_svc(char **, struct svc_req *);
 #define vs_readdir 3
-extern  char ** vs_readdir_1(char **, CLIENT *);
-extern  char ** vs_readdir_1_svc(char **, struct svc_req *);
+extern  dir_node * vs_readdir_1(char **, CLIENT *);
+extern  dir_node * vs_readdir_1_svc(char **, struct svc_req *);
 #define vs_shutdown 6
 extern  void * vs_shutdown_1(void *, CLIENT *);
 extern  void * vs_shutdown_1_svc(void *, struct svc_req *);
@@ -62,8 +62,8 @@ extern  quad_array * vs_quad_1_svc();
 extern  return_twice * vs_twice_1();
 extern  return_twice * vs_twice_1_svc();
 #define vs_readdir 3
-extern  char ** vs_readdir_1();
-extern  char ** vs_readdir_1_svc();
+extern  dir_node * vs_readdir_1();
+extern  dir_node * vs_readdir_1_svc();
 #define vs_shutdown 6
 extern  void * vs_shutdown_1();
 extern  void * vs_shutdown_1_svc();

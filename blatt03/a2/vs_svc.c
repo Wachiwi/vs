@@ -47,7 +47,7 @@ vs11server_1(struct svc_req *rqstp, register SVCXPRT *transp)
 
 	case vs_readdir:
 		_xdr_argument = (xdrproc_t) xdr_wrapstring;
-		_xdr_result = (xdrproc_t) xdr_wrapstring;
+		_xdr_result = (xdrproc_t) xdr_dir_node;
 		local = (char *(*)(char *, struct svc_req *)) vs_readdir_1_svc;
 		break;
 
@@ -82,15 +82,15 @@ main (int argc, char **argv)
 {
 	register SVCXPRT *transp;
 
-	pmap_unset (VS11SERVER, VS11SERVER);
+	pmap_unset (VS11SERVER, VS11SERVERVERS);
 
 	transp = svcudp_create(RPC_ANYSOCK);
 	if (transp == NULL) {
 		fprintf (stderr, "%s", "cannot create udp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, VS11SERVER, VS11SERVER, vs11server_1, IPPROTO_UDP)) {
-		fprintf (stderr, "%s", "unable to register (VS11SERVER, VS11SERVER, udp).");
+	if (!svc_register(transp, VS11SERVER, VS11SERVERVERS, vs11server_1, IPPROTO_UDP)) {
+		fprintf (stderr, "%s", "unable to register (VS11SERVER, VS11SERVERVERS, udp).");
 		exit(1);
 	}
 
@@ -99,8 +99,8 @@ main (int argc, char **argv)
 		fprintf (stderr, "%s", "cannot create tcp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, VS11SERVER, VS11SERVER, vs11server_1, IPPROTO_TCP)) {
-		fprintf (stderr, "%s", "unable to register (VS11SERVER, VS11SERVER, tcp).");
+	if (!svc_register(transp, VS11SERVER, VS11SERVERVERS, vs11server_1, IPPROTO_TCP)) {
+		fprintf (stderr, "%s", "unable to register (VS11SERVER, VS11SERVERVERS, tcp).");
 		exit(1);
 	}
 
