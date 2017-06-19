@@ -1,5 +1,6 @@
 run:
 	java -classpath out rmilernen.server.Server &
+	sleep 5
 	java -classpath out rmilernen.client.Client
 
 build:
