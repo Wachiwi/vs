@@ -1,6 +1,8 @@
 package rmilernen.client;
 
 import rmilernen.server.BasicPlusIf;
+import rmilernen.server.BasicIf;
+import rmilernen.server.ExtendedIf;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
