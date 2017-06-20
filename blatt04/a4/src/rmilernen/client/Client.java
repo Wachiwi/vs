@@ -160,8 +160,8 @@ public class Client {
         Client.call_basicplus("basicplus", 2501,1);
         Client.call_extended("extended", 2502, 1);
 
-        Client.call_basic("basic", 2500, 2);
-        Client.call_basicplus("basicplus", 2501,2);
         Client.call_extended("extended", 2502, 2);
+        Client.call_basicplus("basicplus", 2501,2);
+        Client.call_basic("basic", 2500, 2);
     }
 }
