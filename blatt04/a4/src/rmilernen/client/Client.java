@@ -69,9 +69,9 @@ public class Client {
 
 
     public static void main(String[] args) {
-        Client.call_basicplus("basic", 10099, 1);
-        Client.call_basicplus("basicplus", 10100,1);
-        Client.call_basicplus("extended", 10101, 1);
-        Client.call_basicplus("basic", 10099, 1);
+        Client.call_basicplus("basic", 2500, 1);
+        Client.call_basicplus("basicplus", 2501,1);
+        Client.call_basicplus("extended", 2502, 1);
+        Client.call_basicplus("basic", 2500, 1);
     }
 }
