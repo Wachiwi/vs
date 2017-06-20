@@ -10,10 +10,10 @@ public class Server {
 
     public Server(String namespace, int port) {
         try {
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.getRegistry(port);
             if (registry != null) {
                 LocateRegistry.createRegistry(port);
-                registry = LocateRegistry.getRegistry();
+                registry = LocateRegistry.getRegistry(port);
             }
             RemoteServer.setLog(System.out);
 
