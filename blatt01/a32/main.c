@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
   // ==================== [ SECTION 2 ] =========================
   // Wait for timeout
 
-  void* r;
+  int* r = malloc(sizeof(int));;
   int time = TIMEOUT;
   while(time >= 0){
     printf ("Remaining until timeout: %ds...\n", time--);
@@ -69,8 +69,7 @@ int main(int argc, char** argv) {
   for(i = 0; i < THREAD_COUNT; i++) {
     printf("Cancelling thread #%d...\n", tis[i]->id);
     s = pthread_cancel(threads[i]);
-    if (s != 0)
-      handle_error_en(s, "pthread_cancel");
+    if (s != 0) handle_error_en(s, "pthread_cancel");
    }
 
   // Wait for threads to cancel && debugging purposes
@@ -80,9 +79,8 @@ int main(int argc, char** argv) {
   // Join with stopped threads and check if they were cancelled
 
   for(i = 0; i < THREAD_COUNT; i++) {
-    pthread_join(threads[i], r);
-    if (s != 0)
-      handle_error_en(s, "pthread_join");
+    pthread_join(threads[i], (void*)r);
+    if (s != 0) handle_error_en(s, "pthread_join");
     if(r == PTHREAD_CANCELED) {
       printf("Thread #%d was sucessfully cancelled!\n", tis[i]->id);
     } else {

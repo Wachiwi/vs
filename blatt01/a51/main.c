@@ -14,17 +14,19 @@
 typedef enum { false, true } bool;
 
 pthread_mutex_t mut = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t finished = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mut2 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t finished = PTHREAD_COND_INITIALIZER;
+bool stopped = false;
 
 void *print_thread(void* buffer) {
   int* s = malloc(sizeof(int));
-  bool stopped = false;
   printf("Thread #2 started...\n\r");
   while(!stopped) {
     *s = pthread_mutex_lock(&mut);
     if(*s != 0) handle_error(*s, "pthread_mutex_lock");
     printf("Thread #2: %d\n\r", *(int*)buffer);
     if (*(int*)buffer == 0) {
+      stopped = true;
       *s = pthread_cond_signal(&finished);
       if(*s != 0) handle_error(*s, "pthread_cond_signal");
       *s = pthread_mutex_unlock(&mut);
@@ -40,17 +42,24 @@ void *print_thread(void* buffer) {
 
 void *generate_random(void* buffer) {
   srand(time(NULL));
-  int c, s;
+  int c = 0, s;
   printf("Thread #1 started...\n\r");
-  for(c = 1; 1; c++) {
+
+  s = pthread_mutex_lock(&mut2);
+  if(s != 0) handle_error(s, "pthread_mutex_lock");
+  while (!stopped) {
     s = pthread_mutex_lock(&mut);
     if(s != 0) handle_error(s, "pthread_mutex_lock");
     *(int*)buffer = rand() % 20;
     printf("Thread #1: %d (It: %d)\n\r", *(int*)buffer, c);
+    c++;
+    sleep(1);
     s = pthread_mutex_unlock(&mut);
     if(s != 0) handle_error(s, "pthread_mutex_unlock");
-    sleep(1);
+    pthread_cond_wait(&finished, &mut2);
   }
+  s = pthread_mutex_unlock(&mut2);
+  if(s != 0) handle_error(s, "pthread_mutex_unlock");
 }
 
 int main() {
@@ -59,12 +68,14 @@ int main() {
   int* buffer = calloc(BUFFER_SIZE, sizeof(int));
   pthread_t threads[THREAD_COUNT];
 
+  printf("Running until done or ^C...\n\r");
+
   s = pthread_create(&threads[0], NULL, generate_random, buffer);
   if(s != 0) handle_error(s, "pthread_create");
-  s = pthread_create(&threads[0], NULL, print_thread, buffer);
+  sleep(1);
+  s = pthread_create(&threads[1], NULL, print_thread, buffer);
   if(s != 0) handle_error(s, "pthread_create");
 
-  printf("Running until done or ^C...\n\r");
   int* res = malloc(sizeof(int));
   pthread_join(threads[0], (void*)res);
   return *res;
